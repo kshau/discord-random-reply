@@ -6,7 +6,7 @@ const TOKEN = "NzY4MTgxMjc3ODE0Njg1NzA2.Glj2dn.9J7WSQslE6elSa6WSeD1avgO4qcy5w9Ui
 
 Fs.readFile("replies.txt", (err, data) => {
 
-    const REPLIES_LIST = data.toString().split("\r\n")
+    const REPLIES_LIST = data.toString().split("\n")
 
     function connect() {
 
