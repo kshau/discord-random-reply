@@ -6,10 +6,10 @@ const TOKEN = "NzY4MTgxMjc3ODE0Njg1NzA2.Glj2dn.9J7WSQslE6elSa6WSeD1avgO4qcy5w9Ui
 
 Fs.readFile("replies.txt", (err, data) => {
 
-    const REPLIES_LIST = data.toString().split("\n")
-    
+    const REPLIES_LIST = data.toString().split("\r\n")
+
     function connect() {
-    
+
         var ws = new WebSocket("wss://gateway.discord.gg/?v=10&encoding=json");
         var interval;
 
@@ -18,12 +18,12 @@ Fs.readFile("replies.txt", (err, data) => {
         ws.send(JSON.stringify({
             "op": 2,
             "d": {
-            "token": TOKEN,
-            "intents": 513,
-            "properties": {
-                "os": "linux",
-                "browser": "chrome"
-            }
+                "token": TOKEN,
+                "intents": 513,
+                "properties": {
+                    "os": "linux",
+                    "browser": "chrome"
+                }
             }
         }))
 
@@ -49,7 +49,7 @@ Fs.readFile("replies.txt", (err, data) => {
             switch (t) {
 
                 case "MESSAGE_CREATE":
-
+                    
                     if (d.author.id != "768181277814685706") {
                         fetch(`https://discord.com/api/v9/channels/${d.channel_id}/messages`, {
                             "headers": {
@@ -64,12 +64,13 @@ Fs.readFile("replies.txt", (err, data) => {
                     break;
 
             }
-
+            
         })
-        
-        connect();
-        
-    }
-})
 
-connect();
+        connect();
+
+    }
+
+    connect();
+
+})
