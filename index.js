@@ -67,7 +67,7 @@ Fs.readFile("replies.txt", (err, data) => {
             
         })
 
-        connect();
+        ws.on("close", connect);
 
     }
 
