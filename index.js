@@ -19,7 +19,6 @@ Fs.readFile("replies.txt", (err, data) => {
             "op": 2,
             "d": {
                 "token": TOKEN,
-                "intents": 513,
                 "properties": {
                     "os": "linux",
                     "browser": "chrome"
@@ -50,7 +49,7 @@ Fs.readFile("replies.txt", (err, data) => {
 
                 case "MESSAGE_CREATE":
                     
-                    if (d.author.id != "768181277814685706" && d.guild_id != "1006349856543088661") {
+                    if (d.channel_id == "986672234607304714") {
                         fetch(`https://discord.com/api/v9/channels/${d.channel_id}/messages`, {
                             "headers": {
                                 "authorization": TOKEN,
