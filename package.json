@@ -1,5 +1,5 @@
 {
-  "name": "discord-auto-reply",
+  "name": "discord-random-reply",
   "version": "1.0.0",
   "description": "This program randomly replies to messages on Discord. ",
   "main": "index.js",
