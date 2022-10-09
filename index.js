@@ -2,7 +2,7 @@ const {fetch} = require("undici");
 const WebSocket = require("ws");
 const Fs = require("fs");
 
-const TOKEN = "NzY4MTgxMjc3ODE0Njg1NzA2.Glj2dn.9J7WSQslE6elSa6WSeD1avgO4qcy5w9UiE--ks";
+const TOKEN = "NzY4MTgxMjc3ODE0Njg1NzA2.G57ssA.VAZrDJFFbOfOUVVOLkxp3I7zJhLssIx50RrhfI";
 
 Fs.readFile("replies.txt", (err, data) => {
 
