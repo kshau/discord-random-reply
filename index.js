@@ -1,8 +1,12 @@
 const {fetch} = require("undici");
 const WebSocket = require("ws");
 const Fs = require("fs");
+const DotEnv = require("dotenv");
 
-const TOKEN = "NzY4MTgxMjc3ODE0Njg1NzA2.G57ssA.VAZrDJFFbOfOUVVOLkxp3I7zJhLssIx50RrhfI";
+DotEnv.config();
+
+const TOKEN = process.env.TOKEN;
+const CHANNEL_IDS = ["953805329345429614", "1031375573504757770", "941815267187622028", "986672234607304714", "902313099749642251"]
 
 Fs.readFile("replies.txt", (err, data) => {
 
@@ -15,16 +19,16 @@ Fs.readFile("replies.txt", (err, data) => {
 
         ws.on("open", () => {
 
-        ws.send(JSON.stringify({
-            "op": 2,
-            "d": {
-                "token": TOKEN,
-                "properties": {
-                    "os": "linux",
-                    "browser": "chrome"
+            ws.send(JSON.stringify({
+                "op": 2,
+                "d": {
+                    "token": TOKEN,
+                    "properties": {
+                        "os": "linux",
+                        "browser": "chrome"
+                    }
                 }
-            }
-        }))
+            }))
 
         })
 
@@ -48,17 +52,21 @@ Fs.readFile("replies.txt", (err, data) => {
             switch (t) {
 
                 case "MESSAGE_CREATE":
-                    
-                    if (d.guild_id == "1023562098673979414" && d.author.id != "768181277814685706") {
-                        fetch(`https://discord.com/api/v9/channels/${d.channel_id}/messages`, {
-                            "headers": {
-                                "authorization": TOKEN,
-                                "content-type": "application/json"
-                            },
-                            "body": JSON.stringify({"content": REPLIES_LIST[Math.floor((Math.random() * REPLIES_LIST.length))]}),
-                            "method": "POST",
-                        }).then();
-                    }
+
+                    CHANNEL_IDS.forEach(c => {
+
+                        if (d.channel_id == c && d.author.id != "768181277814685706") {
+                            fetch(`https://discord.com/api/v9/channels/${d.channel_id}/messages`, {
+                                "headers": {
+                                    "authorization": TOKEN,
+                                    "content-type": "application/json"
+                                },
+                                "body": JSON.stringify({"content": REPLIES_LIST[Math.floor((Math.random() * REPLIES_LIST.length))]}),
+                                "method": "POST",
+                            }).then();
+                        }
+
+                    })
 
                     break;
 
