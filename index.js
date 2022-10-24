@@ -1,12 +1,14 @@
 const {fetch} = require("undici");
 const WebSocket = require("ws");
 const Fs = require("fs");
-const DotEnv = require("dotenv");
 
+const {Messages} = require("./js/Messages");
+
+const DotEnv = require("dotenv");
 DotEnv.config();
 
 const TOKEN = process.env.TOKEN;
-const CHANNEL_IDS = ["953805329345429614", "1031375573504757770", "941815267187622028", "986672234607304714", "902313099749642251"]
+const CHANNEL_IDS = process.env.CHANNEL_IDS.split(",");
 
 Fs.readFile("replies.txt", (err, data) => {
 
@@ -53,20 +55,9 @@ Fs.readFile("replies.txt", (err, data) => {
 
                 case "MESSAGE_CREATE":
 
-                    CHANNEL_IDS.forEach(c => {
-
-                        if (d.channel_id == c && d.author.id != "768181277814685706") {
-                            fetch(`https://discord.com/api/v9/channels/${d.channel_id}/messages`, {
-                                "headers": {
-                                    "authorization": TOKEN,
-                                    "content-type": "application/json"
-                                },
-                                "body": JSON.stringify({"content": REPLIES_LIST[Math.floor((Math.random() * REPLIES_LIST.length))]}),
-                                "method": "POST",
-                            }).then();
-                        }
-
-                    })
+                    if (CHANNEL_IDS.includes(d.channel_id) && d.author.id != "768181277814685706") {
+                        Messages.sendWithTyping(REPLIES_LIST[Math.floor((Math.random() * REPLIES_LIST.length))], TOKEN, CHANNEL_IDS).then()
+                    }
 
                     break;
 
