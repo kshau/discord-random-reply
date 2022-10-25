@@ -33,7 +33,7 @@ class Messages {
 
         setTimeout(() => {
             Messages.send(content, token, channel_id)
-        }, (content.length * 200 < 10000) ? (content.length * 200) : (10000))
+        }, (content.length * 200 < 10000) ? (content.length * 200 * (Math.random() + 0.5)) : (10000))
         
     }
 
