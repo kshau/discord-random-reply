@@ -55,42 +55,47 @@ Fs.readFile("replies.txt", (err, data) => {
 
                 case "MESSAGE_CREATE":
 
-                    var reply = false;
+                    setTimeout(() => {
 
-                    if (d.author.id != "768181277814685706") {
+                        var reply = false;
 
-                        if (CHANNEL_IDS.includes("ALL")) {
-                            reply = true;
-                        }
+                        if (d.author.id != "768181277814685706") {
 
-                        else if (CHANNEL_IDS.includes("DM") && d.guild_id == undefined) {
-                            reply = true;
-                        }
+                            if (CHANNEL_IDS.includes("ALL")) {
+                                reply = true;
+                            }
 
-                        else if (CHANNEL_IDS.includes("GUILD") && d.guild_id != undefined) {
-                            reply = true;
-                        }
+                            else if (CHANNEL_IDS.includes("DM") && d.guild_id == undefined) {
+                                reply = true;
+                            }
 
-                        else if (CHANNEL_IDS.includes(d.channel_id)) {
-                            reply = true;
-                        }
+                            else if (CHANNEL_IDS.includes("GUILD") && d.guild_id != undefined) {
+                                reply = true;
+                            }
 
-                        else {
-                            for (var i = 0; i <= CHANNEL_IDS.length - 1; i++) {
-                                if (CHANNEL_IDS[i].startsWith("G") && CHANNEL_IDS[i].replace("G", "") == d.guild_id) {
-                                    reply = true;
+                            else if (CHANNEL_IDS.includes(d.channel_id)) {
+                                reply = true;
+                            }
+
+                            else {
+                                for (var i = 0; i <= CHANNEL_IDS.length - 1; i++) {
+                                    if (CHANNEL_IDS[i].startsWith("G") && CHANNEL_IDS[i].replace("G", "") == d.guild_id) {
+                                        reply = true;
+                                    }
                                 }
                             }
+
+
+                            if (reply) {
+                                setTimeout(() => {
+                                    Messages.sendWithTyping(REPLIES_LIST[Math.floor((Math.random() * REPLIES_LIST.length))], TOKEN, d.channel_id).then()
+                                }, d.content.length * 50 * (Math.random() + 0.5))
+                            }
+
                         }
 
 
-                        if (reply) {
-                            setTimeout(() => {
-                                Messages.sendWithTyping(REPLIES_LIST[Math.floor((Math.random() * REPLIES_LIST.length))], TOKEN, d.channel_id).then()
-                            }, d.content.length * 50 * (Math.random() + 0.5))
-                        }
-
-                    }
+                    }, (Math.random() > 0.2) ? (Math.random() * 8000) : (0))
 
                     break;
 
